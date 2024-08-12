@@ -1,0 +1,9 @@
+dependencies:
+- name: keycloak
+  repository: file://./keycloak
+  version: 22.1.0
+- name: mysql
+  repository: file://./mysql
+  version: 10.3.0
+digest: sha256:f173f008c6fcb0af5c96c9dd44751f10131619c01e2670c5bb5dd3f4b1b7f85c
+generated: "2024-08-09T23:55:41.078194175+08:00"
