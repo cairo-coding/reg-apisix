@@ -1,0 +1,14 @@
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: httpbin-route
+spec:
+  http:
+    - name: httpbin-route
+      match:
+        hosts:
+          - test.navendu.me
+        paths:
+          - /*
+      upstreams:
+        - name: httpbin-upstream

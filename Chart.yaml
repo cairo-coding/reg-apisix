@@ -32,3 +32,8 @@ dependencies:
     version: 10.3.0
     repository: file://./mysql
     condition: mysql.enabled
+  - name: apisix
+    version: 3.3.9
+    repository: file://./apisix
+    condition: apisix.enabled
+

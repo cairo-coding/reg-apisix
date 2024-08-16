@@ -1,13 +1,28 @@
 apisix:
-  enabled: false
+  enabled: true
+  global:
+    imageRegistry: 192.168.44.140:35000
+  image:
+    registry: 192.168.44.140:35000
+    repository: bitnami/apisix
+    tag: 3.9.1-debian-12-r8
 
-# Disable PostgreSQL
-postgresql:
-  enabled: false
+  dashboard:
+    enabled: true
+    username: admin
+    password: admin_password
+
+  ingressController:
+    enabled: true
+    
 
 # Add MySQL dependency
-  mysql:
-    enabled: true
+mysql:
+  enabled: true
+  image:
+    registry: 192.168.44.140:35000
+    repository: bitnami/mysql
+    tag: 8.0.39
   auth:
     rootPassword: mysql-root_password
     database: keycloak
@@ -16,23 +31,42 @@ postgresql:
 
 
 
+
 # Keycloak configuration to use MySQL
 keycloak:
-  enabled: false
-  # Disable PostgreSQL
+  enabled: true
+
+  global:
+    imageRegistry: 192.168.44.140:35000
+ 
+  image:
+    repository: bitnami/keycloak
+    tag: 25.0.2-debian-12-r2
+  auth:
+    adminUser: admin
+    adminPassword: admin_password
+  
+  postgresql:
+    enabled: false
+
   externalDatabase:
-    host: "10.152.183.32"
+    host: reg-apisix-mysql.default.svc.cluster.local
     port: 3306
     user: keycloak
     database: keycloak
-    existingSecret: reg-apisix-mysql
+    password: keycloak_password
+
+  
   extraEnvVars:
     - name: KC_DB # override values from the conf file
       value: 'mysql'
     - name: KC_DB_URL
-      value: 'jdbc:mysql://10.152.183.32:3306/keycloak;'
-  postgresql:
-    enabled: false
-  mysql:
-    enabled: true
+      value: 'jdbc:mysql://reg-apisix-mysql.default.svc.cluster.local:3306/keycloak'
+    - name: KC_HOSTNAME_DEBUG
+      value: 'true'
+    
 
+  containerSecurityContext:
+    enabled: false
+
+ 
